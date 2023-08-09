@@ -121,6 +121,35 @@ func TestDID_PolygonID_Types(t *testing.T) {
 
 }
 
+
+func TestDID_NboID_Types(t *testing.T) {
+
+	// Polygon no chain, no network
+	did := helperBuildDIDFromType(t, DIDMethodNbo, NoChain, NoNetwork)
+
+	require.Equal(t, DIDMethodNbo, did.Method)
+	require.Equal(t, NoChain, did.Blockchain)
+	require.Equal(t, NoNetwork, did.NetworkID)
+	require.Equal(t, "did:nbo:4YBZAimJydu2XvSqVLSHFGcaYKpmMwHqpQTjmgsW8P", did.String())
+
+	// Nbo | Besu chain, Main
+	did2 := helperBuildDIDFromType(t, DIDMethodNbo, Besu, Main)
+
+	require.Equal(t, DIDMethodNbo, did2.Method)
+	require.Equal(t, Besu, did2.Blockchain)
+	require.Equal(t, Main, did2.NetworkID)
+	require.Equal(t, "did:nbo:besu:main:4bb86obLkMrifHixMY62WM4iQQVr7u29cxWjMAinrT", did2.String())
+
+	// Nbo | Besu chain, Test
+	did3 := helperBuildDIDFromType(t, DIDMethodNbo, Besu, Test)
+
+	require.Equal(t, DIDMethodNbo, did3.Method)
+	require.Equal(t, Besu, did3.Blockchain)
+	require.Equal(t, Test, did3.NetworkID)
+	require.Equal(t, "did:nbo:besu:test:4bnk9z7TgAgM91v8zcBfAmD5LXbZLieknX72P8wvfH", did3.String())
+
+}
+
 func helperBuildDIDFromType(t testing.TB, method DIDMethod, blockchain Blockchain, network NetworkID) *DID {
 	t.Helper()
 

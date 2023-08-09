@@ -28,6 +28,8 @@ const (
 	DIDMethodIden3 DIDMethod = "iden3"
 	// DIDMethodPolygonID DID method-name
 	DIDMethodPolygonID DIDMethod = "polygonid"
+	// DIDMethodNbo DID method-name
+	DIDMethodNbo DIDMethod = "nbo"
 )
 
 // Blockchain id of the network "eth", "polygon", etc.
@@ -38,6 +40,8 @@ const (
 	Ethereum Blockchain = "eth"
 	// Polygon is polygon blockchain network
 	Polygon Blockchain = "polygon"
+	// Besu is besu blockchain network
+	Besu Blockchain = "besu"
 	// UnknownChain is used when it's not possible to retrieve blockchain type from identifier
 	UnknownChain Blockchain = "unknown"
 	// NoChain should be used for readonly identity to build readonly flag
@@ -48,13 +52,18 @@ const (
 type NetworkID string
 
 const (
-	// Main is ethereum main network
+	// Main is main network
 	Main NetworkID = "main"
+
+	// Test is test network
+	Test NetworkID = "test" // test
+
 	// Mumbai is polygon mumbai test network
 	Mumbai NetworkID = "mumbai"
 
 	// Goerli is ethereum goerli test network
 	Goerli NetworkID = "goerli" // goerli
+
 	// UnknownNetwork is used when it's not possible to retrieve network from identifier
 	UnknownNetwork NetworkID = "unknown"
 
@@ -66,6 +75,7 @@ const (
 var DIDMethodByte = map[DIDMethod]byte{
 	DIDMethodIden3:     0b00000001,
 	DIDMethodPolygonID: 0b00000010,
+	DIDMethodNbo:       0b00000100,
 }
 
 // DIDNetworkFlag is a structure to represent DID blockchain and network id
@@ -90,6 +100,12 @@ var DIDMethodNetwork = map[DIDMethod]map[DIDNetworkFlag]byte{
 
 		{Blockchain: Polygon, NetworkID: Main}:   0b00010000 | 0b00000001,
 		{Blockchain: Polygon, NetworkID: Mumbai}: 0b00010000 | 0b00000010,
+	},
+	DIDMethodNbo: {
+		{Blockchain: NoChain, NetworkID: NoNetwork}: 0b00000000,
+
+		{Blockchain: Besu, NetworkID: Main}: 0b00010000 | 0b00000001,
+		{Blockchain: Besu, NetworkID: Test}: 0b00010000 | 0b00000010,
 	},
 }
 
